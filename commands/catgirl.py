@@ -53,21 +53,23 @@ class catgirl(BaseCommand):
         if (catSeries == 0):
             if (catRarity== 0):
                 kittyname = "Mae"
-            if (catRarity == 1):
+            elif (catRarity == 1):
                 kittyname = "Kita"
-            if (catRarity == 2):
+            elif (catRarity == 2):
                 kittyname = "Hana"
-            if (catRarity == 3):
+            elif (catRarity == 3):
                 kittyname = "Celeste"
-            if (catRarity == 4):
+            elif (catRarity == 4):
                 kittyname = "Mittsy"
-        if (catSeries == 1):
+        elif (catSeries == 1):
             if (catRarity == 0):
                 kittyname = "Lisa"
-            if (catRarity == 1):
+            elif (catRarity == 1):
                 kittyname = "Aoi"
-            if (catRarity == 2):
+            elif (catRarity == 2):
                 kittyname = "Rin"
+        else:
+            kittyname = "Must be a new one"
 
         body = "{\"operationName\":\"GetCount\",\"variables\":{\"id\":\"" + (catstats["rarity"] +":" + catstats["characterId"]) + "\"},\"query\":\"query GetCount($id: String) {\\n  characterCount(id: $id) {\\n    id\\n    total\\n    __typename\\n  }\\n}\\n\"}"
 
