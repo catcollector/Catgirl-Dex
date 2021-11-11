@@ -27,19 +27,18 @@ class catgirl(BaseCommand):
     # Override the handle() method
     # It will be called every time the command is received
     async def handle(self, params, message, client):
-        # 'params' is a list that contains the parameters that the command 
-        # expects to receive, t is guaranteed to have AT LEAST as many
-        # parameters as specified in __init__
-        # 'message' is the discord.py Message object for the command to handle
-        # 'client' is the bot Client object
-        body = "{\"operationName\":\"GetCatgirls\",\"variables\":{\"skip\":0,\"orderDirection\":\"desc\",\"first\":1,\"orderBy\":\"timestamp\",\"where\":{\"id\":\"" + str(hex(int(params[0]))) + "\",\"rarity_in\":[0,1,2,3,4]}},\"query\":\"query GetCatgirls($first: Int, $skip: Int = 0, $orderBy: String, $orderDirection: String = asc, $where: Catgirl_filter) {\\n  catgirls(\\n    first: $first\\n    skip: $skip\\n    orderBy: $orderBy\\n    orderDirection: $orderDirection\\n    where: $where\\n  ) {\\n    id\\n    characterId\\n    season\\n    rarity\\n    nyaScore\\n    __typename\\n  }\\n}\\n\"}"
+        try: 
+            body = "{\"operationName\":\"GetCatgirls\",\"variables\":{\"skip\":0,\"orderDirection\":\"desc\",\"first\":1,\"orderBy\":\"timestamp\",\"where\":{\"id\":\"" + str(hex(int(params[0]))) + "\",\"rarity_in\":[0,1,2,3,4]}},\"query\":\"query GetCatgirls($first: Int, $skip: Int = 0, $orderBy: String, $orderDirection: String = asc, $where: Catgirl_filter) {\\n  catgirls(\\n    first: $first\\n    skip: $skip\\n    orderBy: $orderBy\\n    orderDirection: $orderDirection\\n    where: $where\\n  ) {\\n    id\\n    characterId\\n    season\\n    rarity\\n    nyaScore\\n    __typename\\n  }\\n}\\n\"}"
+        except:
+            await message.channel.send('Something went wrong, check catID or try again later')
+            return
 
-        response = requests.post(base_url,
-                data=body,
-                headers = head
-                )
-
-
+        try:
+            response = requests.post(base_url, data=body, headers = head)
+        except:
+            await message.channel.send('Something went wrong, check catID or try again later')
+            return
+        
         print(response.text)
         catdata = json.loads(response.text)
         catstats = catdata["data"]["catgirls"][0]
