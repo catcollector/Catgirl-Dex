@@ -16,7 +16,7 @@ def get_rel_path(rel_path):
 # You can pass the emoji name with or without colons
 # If fail_silently is True, it will not raise an exception
 # if the emoji is not found, it will return the input instead
-def get_emoji(emoji_name, fail_silently=False):
+def get_emoji(emoji_name, fail_silently=True):
     alias = emoji_name if emoji_name[0] == emoji_name[-1] == ":" \
             else f":{emoji_name}:"
     the_emoji = emojize(alias, use_aliases=True)

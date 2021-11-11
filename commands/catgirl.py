@@ -48,28 +48,38 @@ class catgirl(BaseCommand):
         print("season = " + catstats["season"])
         print("character = " + catstats["characterId"])
         kittyname = "Not Found"
+        kittyEmoji = ":CelesteBonk:"
         catRarity = int(catstats["rarity"])
         catSeries = int(catstats["characterId"])
         if (catSeries == 0):
             if (catRarity== 0):
                 kittyname = "Mae"
+                kittyEmoji = ":CatGirlMae:"
             elif (catRarity == 1):
                 kittyname = "Kita"
+                kittyEmoji = ":CatGirlKita:"
             elif (catRarity == 2):
                 kittyname = "Hana"
+                kittyEmoji = ":CatGirlHana:"
             elif (catRarity == 3):
                 kittyname = "Celeste"
+                kittyEmoji = ":CatGirlCeleste:"
             elif (catRarity == 4):
                 kittyname = "Mittsy"
+                kittyEmoji = ":MittsyHappy:"
         elif (catSeries == 1):
             if (catRarity == 0):
                 kittyname = "Lisa"
+                kittyEmoji = ":CatGirlLisa:"
             elif (catRarity == 1):
                 kittyname = "Aoi"
+                kittyEmoji = ":CatGirlAoi:"
             elif (catRarity == 2):
                 kittyname = "Rin"
+                kittyEmoji = ":CatGirlRin:"
         else:
             kittyname = "Must be a new one"
+            kittyEmoji = ":CelesteBonk:"
 
         body = "{\"operationName\":\"GetCount\",\"variables\":{\"id\":\"" + (catstats["rarity"] +":" + catstats["characterId"]) + "\"},\"query\":\"query GetCount($id: String) {\\n  characterCount(id: $id) {\\n    id\\n    total\\n    __typename\\n  }\\n}\\n\"}"
 
@@ -82,7 +92,7 @@ class catgirl(BaseCommand):
         catAmount = json.loads(response2.text)
         catCount = catAmount["data"]["characterCount"]['total']
 
-        rarityStars = get_emoji(":star:") * (int(catstats["rarity"]) + 1)
-        catinfo = "Catgirl {} has the following stats:\n".format(params[0]) + "Season: {}\n".format(catstats["season"]) + "Character: {}\n".format(kittyname) + "Rarity: {}\n".format(rarityStars) + "NyaScore: {}\n".format(catstats["nyaScore"] + "\n" + "Number of owners: {}\n".format(catCount))
+        rarityStars = get_emoji(':star:') * (int(catstats["rarity"]) + 1)
+        catinfo = "Catgirl {} has the following stats:\n".format(params[0]) + "Season: {}\n".format(catstats["season"]) + "Character: {} {}\n".format(kittyname, get_emoji(kittyEmoji))+ "Rarity: {}\n".format(rarityStars) + "NyaScore: {}\n".format(catstats["nyaScore"] + "\n" + "Number of owners: {}\n".format(catCount))
                  
         await message.channel.send(catinfo)
